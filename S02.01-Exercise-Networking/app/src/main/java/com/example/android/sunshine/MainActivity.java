@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
 
     // COMPLETED (8) Create a method that will get the user's preferred location and execute your new AsyncTask and call it loadWeatherData
     public void loadWeatherData() {
-        String preferredLocation = SunshinePreferences.getPreferredWeatherLocation();
-        new FetchWeatherTask(preferredLocation);
+        String preferredLocation = SunshinePreferences.getPreferredWeatherLocation(this);
+        new FetchWeatherTask().execute(preferredLocation);
     }
 
     // COMPLETED (5) Create a class that extends AsyncTask to perform network requests
@@ -72,8 +72,10 @@ public class MainActivity extends AppCompatActivity {
             try {
                 String jsonWeatherResponse = NetworkUtils
                         .getResponseFromHttpUrl(weatherRequestUrl);
+
                 String[] jsonWeatherData = OpenWeatherJsonUtils
                         .getSimpleWeatherStringsFromJson(MainActivity.this, jsonWeatherResponse);
+
                 return jsonWeatherData;
             } catch (Exception e) {
                 e.printStackTrace();
